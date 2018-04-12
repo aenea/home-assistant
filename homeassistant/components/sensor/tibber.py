@@ -97,7 +97,8 @@ class TibberSensor(Entity):
                 price_time = dt_util.as_utc(dt_util.parse_datetime(key))
                 price_total = round(price_total, 3)
                 time_diff = (now - price_time).total_seconds()/60
-                if not self._newest_data_timestamp or price_time > self._newest_data_timestamp:
+                if (not self._newest_data_timestamp or
+                        price_time > self._newest_data_timestamp):
                     self._newest_data_timestamp = price_time
                 if time_diff >= 0 and time_diff < 60:
                     state = price_total
@@ -112,8 +113,9 @@ class TibberSensor(Entity):
                 self._device_state_attributes['min_price'] = min_price
             return state is not None
 
-        if (not self._newest_data_timestamp or (self._newest_data_timestamp - now).total_seconds()/3600 < 12 or
-            not self._is_available):
+        if (not self._newest_data_timestamp or
+            (self._newest_data_timestamp - now).total_seconds()/3600 < 12 or
+                not self._is_available):
             _LOGGER.error("Asking for new data.")
             await _fetch_data()
 
