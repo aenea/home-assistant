@@ -430,14 +430,14 @@ class Thermostat(ClimateDevice):
     def hold_preference(self):
         """Return user preference setting for hold time."""
         # Values returned from thermostat are 'useEndTime4hour',
-        # 'useEndTime2hour', 'nextTransition', 'indefinite', 'askMe'
+        # 'useEndTime2hour', 'nextPeriod', 'indefinite', 'askMe'
         default = self.thermostat['settings']['holdAction']
-        if default == 'nextTransition':
+        if default == 'nextPeriod':
             return default
         # add further conditions if other hold durations should be
         # supported; note that this should not include 'indefinite'
         # as an indefinite away hold is interpreted as away_mode
-        return 'nextTransition'
+        return 'nextPeriod'
 
     @property
     def climate_list(self):
